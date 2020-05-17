@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
-import uuid from 'uuid'
-import contactContext from './contactContext'
+import { v4 as uuidv4 } from 'uuid'
+import ContactContext from './contactContext'
 import contactReducer from './contactReducer'
 import {
     ADD_CONTACT,
@@ -20,7 +20,7 @@ const ContactState = props => {
                 name: 'dia',
                 email: 'dia@gamil.com',
                 phone: '111-111-1111',
-                type: 'professional'
+                type: 'personal'
             },
             {
                 id: 2,
@@ -36,34 +36,56 @@ const ContactState = props => {
                 phone: '111-111-1113',
                 type: 'professional'
             }
-        ]
+        ],
+        current: null
     }
     const [state, dispatch] = useReducer(contactReducer, initialState)
 
     //Add contact
-
+    const addContact = contact => {
+        contact.id = uuidv4()
+        dispatch({ type: ADD_CONTACT, payload: contact })
+    }
     //delete contact
+    const deleteContact = id => {
 
+        dispatch({ type: DELETE_CONTACT, payload: id })
+    }
 
     //set current contacts
+    const setCurrent = contact => {
 
+        dispatch({ type: SET_CURRENT, payload: contact })
+    }
 
     //Clear Current contacts
 
+    const clearCurrent = () => {
 
+        dispatch({ type: CLEAR_CURRENT })
+    }
     //Update contacts 
+    const updateContact = contact => {
 
+        dispatch({ type: UPDATE_CONTACT, payload: contact })
+    }
     //filter contacts
 
     //clear filter
     return (
-        <contactContext.provider
+        <ContactContext.Provider
             value={{
-                contacts: state.contacts
+                contacts: state.contacts,
+                current: state.current,
+                addContact,
+                deleteContact,
+                setCurrent,
+                clearCurrent,
+                updateContact
             }}
         >
             {props.children}
-        </contactContext.provider>
+        </ContactContext.Provider>
     )
 }
 export default ContactState;
