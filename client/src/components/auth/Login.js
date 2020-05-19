@@ -1,18 +1,19 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../../context/auth/authContext';
 import AlertContext from '../../context/alert/alertContext';
 
 const Login = (props) => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
-  const { setAlert } = alertContext;
 
+  const { setAlert } = alertContext;
   const { login, error, clearErrors, isAuthenticated } = authContext;
 
   useEffect(() => {
     if (isAuthenticated) {
       props.history.push('/');
     }
+
     if (error === 'Invalid Credentials') {
       setAlert(error, 'danger');
       clearErrors();
@@ -24,9 +25,11 @@ const Login = (props) => {
     email: '',
     password: '',
   });
+
   const { email, password } = user;
 
   const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (email === '' || password === '') {
@@ -48,6 +51,7 @@ const Login = (props) => {
         <div className='form-group'>
           <label htmlFor='email'>Email Address</label>
           <input
+            id='email'
             type='email'
             name='email'
             value={email}
@@ -58,6 +62,7 @@ const Login = (props) => {
         <div className='form-group'>
           <label htmlFor='password'>Password</label>
           <input
+            id='password'
             type='password'
             name='password'
             value={password}
@@ -65,7 +70,6 @@ const Login = (props) => {
             required
           />
         </div>
-
         <input
           type='submit'
           value='Login'

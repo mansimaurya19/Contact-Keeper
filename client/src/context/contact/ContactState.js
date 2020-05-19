@@ -6,11 +6,11 @@ import {
   GET_CONTACTS,
   ADD_CONTACT,
   DELETE_CONTACT,
-  CLEAR_CONTACTS,
   SET_CURRENT,
   CLEAR_CURRENT,
   UPDATE_CONTACT,
   FILTER_CONTACTS,
+  CLEAR_CONTACTS,
   CLEAR_FILTER,
   CONTACT_ERROR,
 } from '../types';
@@ -22,7 +22,9 @@ const ContactState = (props) => {
     filtered: null,
     error: null,
   };
+
   const [state, dispatch] = useReducer(contactReducer, initialState);
+
   // Get Contacts
   const getContacts = async () => {
     try {
@@ -40,17 +42,21 @@ const ContactState = (props) => {
     }
   };
 
-  //Add contact
+  // Add Contact
   const addContact = async (contact) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
+
     try {
       const res = await axios.post('/api/contacts', contact, config);
 
-      dispatch({ type: ADD_CONTACT, payload: res.data });
+      dispatch({
+        type: ADD_CONTACT,
+        payload: res.data,
+      });
     } catch (err) {
       dispatch({
         type: CONTACT_ERROR,
@@ -58,11 +64,16 @@ const ContactState = (props) => {
       });
     }
   };
-  //delete contact
+
+  // Delete Contact
   const deleteContact = async (id) => {
     try {
       await axios.delete(`/api/contacts/${id}`);
-      dispatch({ type: DELETE_CONTACT, payload: id });
+
+      dispatch({
+        type: DELETE_CONTACT,
+        payload: id,
+      });
     } catch (err) {
       dispatch({
         type: CONTACT_ERROR,
@@ -70,13 +81,15 @@ const ContactState = (props) => {
       });
     }
   };
-  //Update contacts
+
+  // Update Contact
   const updateContact = async (contact) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
+
     try {
       const res = await axios.put(
         `/api/contacts/${contact._id}`,
@@ -84,7 +97,10 @@ const ContactState = (props) => {
         config
       );
 
-      dispatch({ type: UPDATE_CONTACT, payload: res.data });
+      dispatch({
+        type: UPDATE_CONTACT,
+        payload: res.data,
+      });
     } catch (err) {
       dispatch({
         type: CONTACT_ERROR,
@@ -93,27 +109,27 @@ const ContactState = (props) => {
     }
   };
 
-  // clear contacts
+  // Clear Contacts
   const clearContacts = () => {
     dispatch({ type: CLEAR_CONTACTS });
   };
 
-  //set current contacts
+  // Set Current Contact
   const setCurrent = (contact) => {
     dispatch({ type: SET_CURRENT, payload: contact });
   };
 
-  //Clear Current contacts
-
+  // Clear Current Contact
   const clearCurrent = () => {
     dispatch({ type: CLEAR_CURRENT });
   };
 
-  //filter contacts
+  // Filter Contacts
   const filterContacts = (text) => {
     dispatch({ type: FILTER_CONTACTS, payload: text });
   };
-  //clear filter
+
+  // Clear Filter
   const clearFilter = () => {
     dispatch({ type: CLEAR_FILTER });
   };

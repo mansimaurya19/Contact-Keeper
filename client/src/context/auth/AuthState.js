@@ -8,8 +8,8 @@ import {
   REGISTER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
-  LOGIN_FAIL,
   LOGIN_SUCCESS,
+  LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS,
 } from '../types';
@@ -22,15 +22,16 @@ const AuthState = (props) => {
     user: null,
     error: null,
   };
+
   const [state, dispatch] = useReducer(authReducer, initialState);
-  //Load User
+
+  // Load User
   const loadUser = async () => {
-    // load tokens into global headers
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
+    setAuthToken(localStorage.token);
+
     try {
       const res = await axios.get('/api/auth');
+
       dispatch({
         type: USER_LOADED,
         payload: res.data,
@@ -47,12 +48,15 @@ const AuthState = (props) => {
         'Content-Type': 'application/json',
       },
     };
+
     try {
       const res = await axios.post('/api/users', formData, config);
+
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data,
       });
+
       loadUser();
     } catch (err) {
       dispatch({
@@ -62,19 +66,22 @@ const AuthState = (props) => {
     }
   };
 
-  //Login User
+  // Login User
   const login = async (formData) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
       },
     };
+
     try {
       const res = await axios.post('/api/auth', formData, config);
+
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data,
       });
+
       loadUser();
     } catch (err) {
       dispatch({
@@ -83,8 +90,11 @@ const AuthState = (props) => {
       });
     }
   };
-  //Logout
+
+  // Logout
   const logout = () => dispatch({ type: LOGOUT });
+
+  // Clear Errors
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   return (
@@ -92,8 +102,8 @@ const AuthState = (props) => {
       value={{
         token: state.token,
         isAuthenticated: state.isAuthenticated,
-        user: state.user,
         loading: state.loading,
+        user: state.user,
         error: state.error,
         register,
         loadUser,
@@ -106,4 +116,5 @@ const AuthState = (props) => {
     </AuthContext.Provider>
   );
 };
+
 export default AuthState;

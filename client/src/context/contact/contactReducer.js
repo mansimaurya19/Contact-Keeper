@@ -33,7 +33,6 @@ export default (state, action) => {
         ),
         loading: false,
       };
-
     case DELETE_CONTACT:
       return {
         ...state,
@@ -78,7 +77,6 @@ export default (state, action) => {
         ...state,
         error: action.payload,
       };
-
     default:
       return state;
   }

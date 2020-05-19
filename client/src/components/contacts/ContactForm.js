@@ -3,9 +3,11 @@ import ContactContext from '../../context/contact/contactContext';
 
 const ContactForm = () => {
   const contactContext = useContext(ContactContext);
-  const { addContact, clearCurrent, current, updateContact } = contactContext;
+
+  const { addContact, updateContact, clearCurrent, current } = contactContext;
+
   useEffect(() => {
-    if (current != null) {
+    if (current !== null) {
       setContact(current);
     } else {
       setContact({
@@ -16,24 +18,29 @@ const ContactForm = () => {
       });
     }
   }, [contactContext, current]);
+
   const [contact, setContact] = useState({
     name: '',
     email: '',
     phone: '',
     type: 'personal',
   });
+
   const { name, email, phone, type } = contact;
+
   const onChange = (e) =>
     setContact({ ...contact, [e.target.name]: e.target.value });
+
   const onSubmit = (e) => {
     e.preventDefault();
-    if (current == null) {
+    if (current === null) {
       addContact(contact);
     } else {
       updateContact(contact);
     }
     clearAll();
   };
+
   const clearAll = () => {
     clearCurrent();
   };
@@ -71,7 +78,7 @@ const ContactForm = () => {
         value='personal'
         checked={type === 'personal'}
         onChange={onChange}
-      />
+      />{' '}
       Personal{' '}
       <input
         type='radio'
@@ -79,8 +86,8 @@ const ContactForm = () => {
         value='professional'
         checked={type === 'professional'}
         onChange={onChange}
-      />
-      Professional{' '}
+      />{' '}
+      Professional
       <div>
         <input
           type='submit'

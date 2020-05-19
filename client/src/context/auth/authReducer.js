@@ -3,8 +3,8 @@ import {
   REGISTER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
-  LOGIN_FAIL,
   LOGIN_SUCCESS,
+  LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS,
 } from '../types';
@@ -45,7 +45,6 @@ export default (state, action) => {
         ...state,
         error: null,
       };
-
     default:
       return state;
   }
