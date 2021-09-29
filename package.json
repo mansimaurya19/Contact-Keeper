@@ -18,7 +18,7 @@
     "config": "^3.3.1",
     "express": "^4.17.1",
     "express-validator": "^6.4.1",
-    "i": "^0.3.6",
+    "i": "^0.3.7",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.14",
     "npm": "^6.14.6",
